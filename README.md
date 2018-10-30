@@ -1,45 +1,64 @@
-## Package Status
+[![Download](https://api.bintray.com/packages/arnesor/public-conan/sqlitecpp%3Aarnesor/images/download.svg) ](https://bintray.com/arnesor/public-conan/sqlitecpp%3Aarnesor/_latestVersion)
+[![Build Status](https://travis-ci.com/arnesor/conan-sqlitecpp.svg?branch=stable%2F2.2.0)](https://travis-ci.com/arnesor/conan-sqlitecpp)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/arnesor/conan-sqlitecpp?branch=stable%2F2.2.0&svg=true)](https://ci.appveyor.com/project/arnesor/conan-sqlitecpp)
 
-| Bintray | Windows | Linux & macOS |
-|:--------:|:---------:|:-----------------:|
-|BINTRAY_BADGE_URL|APPVEYOR_BADGE_URL|TRAVIS_BADGE_URL|
+[Conan.io](https://conan.io) package recipe for [*sqlitecpp*](https://github.com/SRombauts/SQLiteCpp).
 
-## Conan.io Information
+SQLiteCpp is a smart and easy to use C++ sqlite3 wrapper
 
-Bincrafters packages can be found in the following public Conan repository:
+The packages generated with this **conanfile** can be found on [Bintray](https://bintray.com/bincrafters/public-conan/sqlitecpp%3Abincrafters).
 
-[Bincrafters Public Conan Repository on Bintray](https://bintray.com/bincrafters/public-conan)
+## For Users: Use this package
 
-*Note: You can click the "Set Me Up" button on the Bintray page above for instructions on using packages from this repository.*
+### Basic setup
 
-## Issues
+    $ conan install sqlitecpp/2.2.0@arnesor/stable
 
-If you wish to report an issue or make a request for a Bincrafters package, please do so here:
+### Project setup
 
-[Bincrafters Community Issues](https://github.com/bincrafters/community/issues)
+If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
-## General Information
+    [requires]
+    sqlitecpp/2.2.0@arnesor/stable
 
-This GIT repository is managed by the Bincrafters team and holds files related to Conan.io.  For detailed information about Bincrafters and Conan.io, please visit the following resources:
+    [generators]
+    cmake
 
-[Bincrafters Wiki - Common README](https://github.com/bincrafters/community/wiki/Common-README.md)
+Complete the installation of requirements for your project running:
 
-[Bincrafters Technical Documentation](http://bincrafters.readthedocs.io/en/latest/)
+    $ mkdir build && cd build && conan install ..
 
-[Bincrafters Blog](https://bincrafters.github.io)
+Note: It is recommended that you run conan install from a build directory and not the root of the project directory.  This is because conan generates *conanbuildinfo* files specific to a single build configuration which by default comes from an autodetected default profile located in ~/.conan/profiles/default .  If you pass different build configuration options to conan install, it will generate different *conanbuildinfo* files.  Thus, they should not be added to the root of the project, nor committed to git.
 
-## License Information
+## For Packagers: Publish this Package
 
-Bincrafters packages are hosted on [Bintray](https://bintray.com) and contain Open-Source software which is licensed by the software's maintainers and NOT Bincrafters.  For each Open-Source package published by Bincrafters, the packaging process obtains the required license files along with the original source files from the maintainer, and includes these license files in the generated Conan packages.
+The example below shows the commands used to publish to arnesor conan repository. To publish to your own conan respository (for example, after forking this git repository), you will need to change the commands below accordingly.
 
-The contents of this GIT repository are completely separate from the software being packaged and therefore licensed separately.  The license for all files contained in this GIT repository are defined in the [LICENSE.md](LICENSE.md) file in this repository.  The licenses included with all Conan packages published by Bincrafters can be found in the Conan package directories in the following locations, relative to the Conan Cache root (`~/.conan` by default):
+## Build and package
 
-### License(s) for packaged software:
+The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from "build_requires" and "requires" , and then running the build() method.
 
-    ~/.conan/data/<pkg_name>/<pkg_version>/bincrafters/package/<random_package_id>/license/<LICENSE_FILES_HERE>
+    $ conan create arnesor/stable
 
-*Note :   The most common filenames for OSS licenses are `LICENSE` AND `COPYING` without file extensions.*
 
-### License for Bincrafters recipe:
+### Available Options
+| Option        | Default | Possible Values  |
+| ------------- |:----------------- |:------------:|
+| shared      | False |  [True, False] |
+| fPIC      | True |  [True, False] |
 
-    ~/.conan/data/<pkg_name>/<pkg_version>/bincrafters/export/LICENSE.md
+## Add Remote
+
+    $ conan remote add arnesor "https://api.bintray.com/conan/arnesor/public-conan"
+
+## Upload
+
+    $ conan upload sqlitecpp/2.2.0@arnesor/stable --all -r arnesor
+
+
+## Conan Recipe License
+
+NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package sqlitecpp.
+It does *not* in any way apply or is related to the actual software being packaged.
+
+[MIT](https://github.com/arnesor/conan-sqlitecpp.git/blob/testing/2.2.0/LICENSE)
