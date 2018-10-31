@@ -26,8 +26,17 @@ class SQLiteCppConan(ConanFile):
 
     # Options may need to change depending on the packaged library.
     settings = "os", "arch", "compiler", "build_type"
-    options = {"shared": [True, False], "fPIC": [True, False]}
-    default_options = {"shared": False, "fPIC": True}
+    options = {"shared": [True, False], "fPIC": [True, False], "lint": [True, False]}
+    default_options = {"shared": False,
+                       "fPIC": True,
+                       "lint": False,
+                       "sqlite3:threadsafe": 2,
+                       "sqlite3:enable_column_metadata": True,
+                       "sqlite3:enable_explain_comments": True,
+                       "sqlite3:enable_fts3": True,
+                       "sqlite3:enable_json1": True,
+                       "sqlite3:enable_rtree": True
+                       }
 
     # Custom attributes for Bincrafters recipe conventions
     _source_subfolder = "source_subfolder"
@@ -46,19 +55,18 @@ class SQLiteCppConan(ConanFile):
         git = tools.Git(folder=self._source_subfolder)
         git.clone(source_url, "master")
         git.checkout(element=self.version)
-#         tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
-#                               'cmake_minimum_required(VERSION 2.8.12)',
-#                               'cmake_minimum_required(VERSION 3.1.2)')
-#         tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
-#                               'project(SQLiteCpp)',
-#                               """project(SQLiteCpp)
-# include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-# conan_basic_setup(TARGETS)
-# """)
+        tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
+                              'endif (SQLITECPP_INTERNAL_SQLITE)',
+                              """else (SQLITECPP_INTERNAL_SQLITE)
+    target_link_libraries(SQLiteCpp PUBLIC CONAN_PKG::sqlite3)
+endif (SQLITECPP_INTERNAL_SQLITE)
+""")
 
     def _configure_cmake(self):
         cmake = CMake(self)
-        cmake.definitions["BUILD_TESTS"] = False  # example
+        cmake.definitions["SQLITECPP_INTERNAL_SQLITE"] = False
+        if self.options.lint:
+            cmake.definitions["SQLITECPP_RUN_CPPLINT"] = 1
         cmake.configure(build_folder=self._build_subfolder)
         return cmake
 
