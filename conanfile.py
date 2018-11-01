@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from conans import ConanFile, CMake, tools
+from conans.errors import ConanInvalidConfiguration
 import os
 
 
@@ -43,12 +44,16 @@ class SQLiteCppConan(ConanFile):
     _build_subfolder = "build_subfolder"
 
     requires = (
-        "sqlite3/3.21.0@bincrafters/stable"
+        "sqlite3/3.20.1@bincrafters/stable"
     )
 
     def config_options(self):
         if self.settings.os == 'Windows':
             del self.options.fPIC
+
+    def configure(self):
+        if self.options.shared:
+            raise ConanInvalidConfiguration("This library doesn't support dll's on Windows")
 
     def source(self):
         source_url = "https://github.com/SRombauts/SQLiteCpp.git"
