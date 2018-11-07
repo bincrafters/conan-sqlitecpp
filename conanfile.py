@@ -56,10 +56,13 @@ class SQLiteCppConan(ConanFile):
             raise ConanInvalidConfiguration("This library doesn't support dll's on Windows")
 
     def source(self):
-        source_url = "https://github.com/SRombauts/SQLiteCpp.git"
-        git = tools.Git(folder=self._source_subfolder)
-        git.clone(source_url, "master")
-        git.checkout(element=self.version)
+        source_url = "https://github.com/SRombauts/SQLiteCpp"
+        tools.get("{0}/archive/{1}.tar.gz".format(source_url, self.version), sha256="cd61247c5c9acab3c8a76929c9026e5f2a6daf6bae48d8cd4e9606d045203a28")
+        extracted_dir = "SQLiteCpp-" + self.version
+
+        # Rename to "source_subfolder" is a convention to simplify later steps
+        os.rename(extracted_dir, self._source_subfolder)
+
         tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
                               'endif (SQLITECPP_INTERNAL_SQLITE)',
                               """else (SQLITECPP_INTERNAL_SQLITE)
