@@ -1,6 +1,6 @@
-[![Download](https://api.bintray.com/packages/arnesor/public-conan/sqlitecpp%3Aarnesor/images/download.svg) ](https://bintray.com/arnesor/public-conan/sqlitecpp%3Aarnesor/_latestVersion)
-[![Build Status](https://travis-ci.com/arnesor/conan-sqlitecpp.svg?branch=stable%2F2.2.0)](https://travis-ci.com/arnesor/conan-sqlitecpp)
-[![Build status](https://ci.appveyor.com/api/projects/status/github/arnesor/conan-sqlitecpp?branch=stable%2F2.2.0&svg=true)](https://ci.appveyor.com/project/arnesor/conan-sqlitecpp)
+[![Download](https://api.bintray.com/packages/bincrafters/public-conan/sqlitecpp%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/sqlitecpp%3Abincrafters/_latestVersion)
+[![Build Status](https://travis-ci.com/bincrafters/conan-sqlitecpp.svg?branch=stable%2F2.2.0)](https://travis-ci.com/bincrafters/conan-sqlitecpp)
+[![Build status](https://ci.appveyor.com/api/projects/status/github/Bincrafters/conan-sqlitecpp?branch=stable%2F2.2.0&svg=true)](https://ci.appveyor.com/project/bincrafters/conan-sqlitecpp)
 
 [Conan.io](https://conan.io) package recipe for [*sqlitecpp*](https://github.com/SRombauts/SQLiteCpp).
 
@@ -12,14 +12,14 @@ The packages generated with this **conanfile** can be found on [Bintray](https:/
 
 ### Basic setup
 
-    $ conan install sqlitecpp/2.2.0@arnesor/stable
+    $ conan install sqlitecpp/2.2.0@bincrafters/stable
 
 ### Project setup
 
 If you handle multiple dependencies in your project is better to add a *conanfile.txt*
 
     [requires]
-    sqlitecpp/2.2.0@arnesor/stable
+    sqlitecpp/2.2.0@bincrafters/stable
 
     [generators]
     cmake
@@ -32,13 +32,13 @@ Note: It is recommended that you run conan install from a build directory and no
 
 ## For Packagers: Publish this Package
 
-The example below shows the commands used to publish to arnesor conan repository. To publish to your own conan respository (for example, after forking this git repository), you will need to change the commands below accordingly.
+The example below shows the commands used to publish to bincrafters conan repository. To publish to your own conan respository (for example, after forking this git repository), you will need to change the commands below accordingly.
 
 ## Build and package
 
 The following command both runs all the steps of the conan file, and publishes the package to the local system cache.  This includes downloading dependencies from "build_requires" and "requires" , and then running the build() method.
 
-    $ conan create arnesor/stable
+    $ conan create bincrafters/stable
 
 
 ### Available Options
@@ -49,11 +49,11 @@ The following command both runs all the steps of the conan file, and publishes t
 
 ## Add Remote
 
-    $ conan remote add arnesor "https://api.bintray.com/conan/arnesor/public-conan"
+    $ conan remote add bincrafters "https://api.bintray.com/conan/bincrafters/public-conan"
 
 ## Upload
 
-    $ conan upload sqlitecpp/2.2.0@arnesor/stable --all -r arnesor
+    $ conan upload sqlitecpp/2.2.0@bincrafters/stable --all -r bincrafters
 
 
 ## Conan Recipe License
@@ -61,4 +61,4 @@ The following command both runs all the steps of the conan file, and publishes t
 NOTE: The conan recipe license applies only to the files of this recipe, which can be used to build and package sqlitecpp.
 It does *not* in any way apply or is related to the actual software being packaged.
 
-[MIT](https://github.com/arnesor/conan-sqlitecpp.git/blob/testing/2.2.0/LICENSE)
+[MIT](https://github.com/bincrafters/conan-sqlitecpp.git/blob/testing/2.2.0/LICENSE)

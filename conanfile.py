@@ -10,22 +10,14 @@ class SQLiteCppConan(ConanFile):
     name = "sqlitecpp"
     version = "2.2.0"
     description = "SQLiteCpp is a smart and easy to use C++ sqlite3 wrapper"
-    # topics can get used for searches, GitHub topics, Bintray tags etc. Add here keywords about the library
     topics = ["conan", "sqlitecpp", "sqlite3"]
-    url = "https://github.com/arnesor/conan-sqlitecpp"
+    url = "https://github.com/bincrafters/conan-sqlitecpp"
     homepage = "https://github.com/SRombauts/SQLiteCpp"
     author = "Arne Sørli <arnese.sorli@kongsberg.frisurf.no>"
-    # Indicates License type of the packaged library
     license = "MIT"
-
-    # Packages the license for the conanfile.py
-    exports = ["LICENSE.md"]
-
-    # Remove following lines if the target lib does not use cmake.
+    exports = ["LICENSE.md", "LICENSE"]
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
-
-    # Options may need to change depending on the packaged library.
     settings = "os", "arch", "compiler", "build_type"
     options = {"shared": [True, False], "fPIC": [True, False], "lint": [True, False]}
     default_options = {"shared": False,
@@ -34,8 +26,6 @@ class SQLiteCppConan(ConanFile):
                        "sqlite3:threadsafe": 2,
                        "sqlite3:enable_column_metadata": True
                        }
-
-    # Custom attributes for Bincrafters recipe conventions
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
 
@@ -52,11 +42,9 @@ class SQLiteCppConan(ConanFile):
             raise ConanInvalidConfiguration("This library doesn't support dll's on Windows")
 
     def source(self):
-        source_url = "https://github.com/SRombauts/SQLiteCpp"
-        tools.get("{0}/archive/{1}.tar.gz".format(source_url, self.version), sha256="cd61247c5c9acab3c8a76929c9026e5f2a6daf6bae48d8cd4e9606d045203a28")
+        sha256 = "cd61247c5c9acab3c8a76929c9026e5f2a6daf6bae48d8cd4e9606d045203a28"
+        tools.get("{0}/archive/{1}.tar.gz".format(self.homepage, self.version), sha256=sha256)
         extracted_dir = "SQLiteCpp-" + self.version
-
-        # Rename to "source_subfolder" is a convention to simplify later steps
         os.rename(extracted_dir, self._source_subfolder)
 
         tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
@@ -79,18 +67,9 @@ endif (SQLITECPP_INTERNAL_SQLITE)
         cmake.build()
 
     def package(self):
-        self.copy(pattern="LICENSE", dst="licenses", src=self._source_subfolder)
+        self.copy(pattern="LICENSE.txt", dst="licenses", src=self._source_subfolder)
         cmake = self._configure_cmake()
         cmake.install()
-        # If the CMakeLists.txt has a proper install method, the steps below may be redundant
-        # If so, you can just remove the lines below
-        include_folder = os.path.join(self._source_subfolder, "include")
-        self.copy(pattern="*", dst="include", src=include_folder)
-        self.copy(pattern="*.dll", dst="bin", keep_path=False)
-        self.copy(pattern="*.lib", dst="lib", keep_path=False)
-        self.copy(pattern="*.a", dst="lib", keep_path=False)
-        self.copy(pattern="*.so*", dst="lib", keep_path=False)
-        self.copy(pattern="*.dylib", dst="lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
