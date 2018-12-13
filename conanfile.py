@@ -32,11 +32,7 @@ class SQLiteCppConan(ConanFile):
                        "fPIC": True,
                        "lint": False,
                        "sqlite3:threadsafe": 2,
-                       "sqlite3:enable_column_metadata": True,
-                       "sqlite3:enable_explain_comments": True,
-                       "sqlite3:enable_fts3": True,
-                       "sqlite3:enable_json1": True,
-                       "sqlite3:enable_rtree": True
+                       "sqlite3:enable_column_metadata": True
                        }
 
     # Custom attributes for Bincrafters recipe conventions
@@ -52,7 +48,7 @@ class SQLiteCppConan(ConanFile):
             del self.options.fPIC
 
     def configure(self):
-        if self.options.shared:
+        if self.settings.os == 'Windows' and self.options.shared:
             raise ConanInvalidConfiguration("This library doesn't support dll's on Windows")
 
     def source(self):
