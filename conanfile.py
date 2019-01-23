@@ -33,6 +33,10 @@ class SQLiteCppConan(ConanFile):
         "sqlite3/3.20.1@bincrafters/stable"
     )
 
+    @property
+    def is_mingw_windows(self):
+        return self.settings.os == 'Windows' and self.settings.compiler == 'gcc' and os.name == 'nt'
+
     def config_options(self):
         if self.settings.os == 'Windows':
             del self.options.fPIC
@@ -46,6 +50,16 @@ class SQLiteCppConan(ConanFile):
         tools.get("{0}/archive/{1}.tar.gz".format(self.homepage, self.version), sha256=sha256)
         extracted_dir = "SQLiteCpp-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
+
+        if self.is_mingw_windows:
+            tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
+                                  'add_compile_options(-fstack-protector -Wall -Wextra -Wpedantic -Wno-long-long -Wswitch-enum -Wshadow -Winline)',
+                                  """if (MINGW)
+        MESSAGE ( STATUS "Running on MinGW - no -fstack-protector" )
+        add_compile_options(-Wall -Wextra -Wpedantic -Wno-long-long -Wswitch-enum -Wshadow -Winline)
+    else ()
+        add_compile_options(-fstack-protector -Wall -Wextra -Wpedantic -Wno-long-long -Wswitch-enum -Wshadow -Winline)
+    endif ()""")
 
         tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
                               'endif (SQLITECPP_INTERNAL_SQLITE)',
