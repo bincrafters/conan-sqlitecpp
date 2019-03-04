@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from conans import ConanFile, CMake, tools
+from conans.model.version import Version
 from conans.errors import ConanInvalidConfiguration
 import os
 
@@ -30,7 +31,7 @@ class SQLiteCppConan(ConanFile):
     _build_subfolder = "build_subfolder"
 
     requires = (
-        "sqlite3/3.20.1@bincrafters/stable"
+        "sqlite3/3.27.2@bincrafters/stable"
     )
 
     @property
@@ -51,6 +52,8 @@ class SQLiteCppConan(ConanFile):
         extracted_dir = "SQLiteCpp-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
 
+
+    def _patch(self):
         if self.is_mingw_windows:
             tools.replace_in_file(os.path.join(self._source_subfolder, 'CMakeLists.txt'),
                                   'add_compile_options(-fstack-protector -Wall -Wextra -Wpedantic -Wno-long-long -Wswitch-enum -Wshadow -Winline)',
@@ -67,6 +70,13 @@ class SQLiteCppConan(ConanFile):
     target_link_libraries(SQLiteCpp PUBLIC CONAN_PKG::sqlite3)
 endif (SQLITECPP_INTERNAL_SQLITE)
 """)
+        if self.settings.compiler == "clang" and \
+           Version(self.settings.compiler.version.value) < "6.0" and \
+           self.settings.compiler.libcxx == "libc++":
+            tools.replace_in_file(
+                os.path.join(self._source_subfolder, "include", "SQLiteCpp", "Utils.h"),
+                "const nullptr_t nullptr = {};",
+                "")
 
     def _configure_cmake(self):
         cmake = CMake(self)
@@ -77,6 +87,7 @@ endif (SQLITECPP_INTERNAL_SQLITE)
         return cmake
 
     def build(self):
+        self._patch()
         cmake = self._configure_cmake()
         cmake.build()
 
