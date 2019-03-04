@@ -71,7 +71,7 @@ class SQLiteCppConan(ConanFile):
 endif (SQLITECPP_INTERNAL_SQLITE)
 """)
         if self.settings.compiler == "clang" and \
-           Version(self.settings.compiler.version.value) < "5.0" and \
+           Version(self.settings.compiler.version.value) < "6.0" and \
            self.settings.compiler.libcxx == "libc++":
             tools.replace_in_file(
                 os.path.join(self._source_subfolder, "include", "SQLiteCpp", "Utils.h"),
