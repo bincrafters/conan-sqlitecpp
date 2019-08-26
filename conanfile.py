@@ -9,7 +9,7 @@ import os
 
 class SQLiteCppConan(ConanFile):
     name = "sqlitecpp"
-    version = "2.3.0"
+    version = "2.4.0"
     description = "SQLiteCpp is a smart and easy to use C++ sqlite3 wrapper"
     topics = ["conan", "sqlitecpp", "sqlite3"]
     url = "https://github.com/bincrafters/conan-sqlitecpp"
@@ -47,7 +47,7 @@ class SQLiteCppConan(ConanFile):
             raise ConanInvalidConfiguration("This library doesn't support dll's on Windows")
 
     def source(self):
-        sha256 = "619386766bc17a125bb1572f998df2ac9a26e1e43f8543167f0a8830b0623ec6"
+        sha256 = "16bf963619786652a60533bcdc71a0412cad1ce132cd09ce43344af6ed7463d9"
         tools.get("{0}/archive/{1}.tar.gz".format(self.homepage, self.version), sha256=sha256)
         extracted_dir = "SQLiteCpp-" + self.version
         os.rename(extracted_dir, self._source_subfolder)
