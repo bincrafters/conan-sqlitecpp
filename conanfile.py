@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from conans import ConanFile, CMake, tools
-from conans.model.version import Version
+from conans.tools import Version
 from conans.errors import ConanInvalidConfiguration
 import os
 
@@ -11,7 +11,7 @@ class SQLiteCppConan(ConanFile):
     name = "sqlitecpp"
     version = "2.4.0"
     description = "SQLiteCpp is a smart and easy to use C++ sqlite3 wrapper"
-    topics = ["conan", "sqlitecpp", "sqlite3"]
+    topics = ("conan", "sqlitecpp", "sqlite3")
     url = "https://github.com/bincrafters/conan-sqlitecpp"
     homepage = "https://github.com/SRombauts/SQLiteCpp"
     author = "Arne Sørli <arnese.sorli@kongsberg.frisurf.no>"
