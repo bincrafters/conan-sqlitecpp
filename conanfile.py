@@ -28,7 +28,7 @@ class SQLiteCppConan(ConanFile):
     _build_subfolder = "build_subfolder"
 
     requires = (
-        "sqlite3/3.27.2@bincrafters/stable"
+        "sqlite3/3.30.1"
     )
 
     @property
