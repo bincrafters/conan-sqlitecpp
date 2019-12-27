@@ -21,7 +21,7 @@ class SQLiteCppConan(ConanFile):
     default_options = {"shared": False,
                        "fPIC": True,
                        "lint": False,
-                       "sqlite3:threadsafe": 2,
+                       "sqlite3:threadsafe": 1,
                        "sqlite3:enable_column_metadata": True
                        }
     _source_subfolder = "source_subfolder"
